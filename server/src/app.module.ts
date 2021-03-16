@@ -11,7 +11,7 @@ import { UserModule } from './user/user.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { AuthModule } from './auth/auth.module';
 import { ImgsModule } from './imgs/imgs.module';
-import {Country} from "./countries/country.entity";
+import {Country, CountryInfo} from "./countries/country.entity";
 import {Place} from "./places/place.entity";
 import {Rating} from "./ratings/rating.entity";
 import {User} from "./user/user.entity";
@@ -29,7 +29,7 @@ import {User} from "./user/user.entity";
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Country, Place, Rating, User],
+      entities: [Country, CountryInfo, Place, Rating, User],
       synchronize: true,
     }),
     CountriesModule,

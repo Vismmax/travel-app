@@ -3,21 +3,66 @@ import {Place} from "../places/place.entity";
 
 @Entity()
 export class Country {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  alpha3Code: string;
 
-    @Column()
-    capital: string;
+  @Column()
+  name: string;
 
-    @Column()
-    description: string;
+  @Column()
+  capital: string;
 
-    @Column()
-    lang: string;
+  @Column()
+  description: string;
 
-    @OneToMany(() => Place, place => place.country)
-    places: Place[];
+  @Column()
+  lang: string;
+
+  @OneToMany(() => Place, place => place.country)
+  places: Place[];
+}
+
+@Entity()
+export class CountryInfo {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  capital: string;
+
+  @Column()
+  alpha2Code: string;
+
+  @Column()
+  alpha3Code: string;
+
+  @Column()
+  timezones: string;
+
+  @Column()
+  latCapital: string;
+
+  @Column()
+  lonCapital: string;
+
+  @Column()
+  currenciesCode: string;
+
+  @Column()
+  currenciesName: string;
+
+  @Column()
+  currenciesSymbol: string;
+
+  @Column()
+  flag: string;
+
+  // @OneToMany(() => Place, place => place.country)
+  // places: Place[];
 }

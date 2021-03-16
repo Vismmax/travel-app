@@ -4,21 +4,27 @@ import {Rating} from "../ratings/rating.entity";
 
 @Entity()
 export class Place {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  alpha3Code: string;
 
-    @Column()
-    description: string;
+  @Column()
+  name: string;
 
-    @Column()
-    lang: string;
+  @Column()
+  description: string;
 
-    @ManyToOne(() => Country, country => country.places)
-    country: Country;
+  @Column()
+  lang: string;
 
-    @OneToMany(() => Rating, rating => rating.place)
-    ratings: Rating[];
+  @Column()
+  imgUrl: string;
+
+  @ManyToOne(() => Country, country => country.places)
+  country: Country;
+
+  @OneToMany(() => Rating, rating => rating.place)
+  ratings: Rating[];
 }
