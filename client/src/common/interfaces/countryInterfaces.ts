@@ -38,6 +38,11 @@ export interface ICountryInfo {
   currenciesSymbol: string;
   flag: string;
   geo?: any;
+  rates: {
+    USD: number;
+    EUR: number;
+    RUB: number;
+  };
 }
 
 export const emptyCountryInfo: ICountryInfo = {
@@ -52,6 +57,11 @@ export const emptyCountryInfo: ICountryInfo = {
   currenciesName: '',
   currenciesSymbol: '',
   flag: '',
+  rates: {
+    USD: 1,
+    EUR: 1,
+    RUB: 1,
+  },
 };
 
 export interface ICountryFull {

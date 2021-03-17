@@ -24,7 +24,7 @@ export default function SideBar({ country }: IProps) {
     <aside>
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
-          <DateClock />
+          {country.info.geo && <DateClock info={country.info} />}
         </Grid>
         <Grid item xs={12} md={12}>
           <DateCalendar />
@@ -35,7 +35,8 @@ export default function SideBar({ country }: IProps) {
           )}
         </Grid>
         <Grid item xs={12} md={12}>
-          <Exchange info={country.info} />
+          {country.info.geo && <Exchange info={country.info} />}
+          {/*<Exchange info={country.info} />*/}
         </Grid>
       </Grid>
     </aside>

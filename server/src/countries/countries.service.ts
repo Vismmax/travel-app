@@ -44,6 +44,14 @@ export class CountriesService {
       }),
       this.placesRepository.find({ alpha3Code, lang }),
     ]);
+    const ratesData = await axios.get(process.env.URL_API_EXCHANGE, {
+      params: {
+        base: info.currenciesCode,
+        symbols: 'USD,EUR,RUB',
+      },
+    });
+    // @ts-ignore
+    info.rates = ratesData.data.rates;
     return { country, info, places };
   }
 

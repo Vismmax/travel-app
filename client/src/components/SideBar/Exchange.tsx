@@ -24,9 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(3),
       marginBottom: theme.spacing(3),
     },
-    inputName: {
-      // width: theme.spacing(13),
-    },
+    inputName: {},
   }),
 );
 
@@ -39,9 +37,6 @@ export default function Exchange({ info }: IProps) {
   const { t } = useTranslation();
 
   const [sum, setSum] = useState('1');
-  const [rate, setRate] = useState({ usd: 1, eur: 1, rub: 1 });
-
-  useEffect(() => {}, []);
 
   return (
     <section className={classes.root}>
@@ -68,7 +63,7 @@ export default function Exchange({ info }: IProps) {
         />
         <TextField
           className={classes.input}
-          value={+sum * rate.usd || ''}
+          value={+sum * info.rates.USD || ''}
           InputProps={{
             startAdornment: (
               <InputAdornment className={classes.inputName} position='start'>
@@ -85,7 +80,7 @@ export default function Exchange({ info }: IProps) {
         />
         <TextField
           className={classes.input}
-          value={+sum * rate.eur || ''}
+          value={+sum * info.rates.EUR || ''}
           InputProps={{
             startAdornment: (
               <InputAdornment className={classes.inputName} position='start'>
@@ -102,7 +97,7 @@ export default function Exchange({ info }: IProps) {
         />
         <TextField
           className={classes.input}
-          value={+sum * rate.rub || ''}
+          value={+sum * info.rates.RUB || ''}
           InputProps={{
             startAdornment: (
               <InputAdornment className={classes.inputName} position='start'>
