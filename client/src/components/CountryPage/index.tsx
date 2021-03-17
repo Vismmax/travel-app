@@ -8,13 +8,15 @@ import Video from './Video';
 import Location from './Location';
 import SideBar from '../SideBar';
 import { langStore } from '../common/commonSlice';
-import { countryStore, getCountry } from './countrySlice';
+import { countryStore, getCountry, isLoadingStore } from './countrySlice';
+import Spinner from '../common/Spinner';
 
 export default function CountryPage() {
   const { alpha3Code } = useParams<{ alpha3Code: string }>();
   const dispatch = useDispatch();
   const country = useSelector(countryStore);
   const lang = useSelector(langStore);
+  const isLoading = useSelector(isLoadingStore);
 
   const fetchCountry = () => {
     dispatch(getCountry(alpha3Code));
@@ -25,19 +27,22 @@ export default function CountryPage() {
   }, [lang]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={9}>
-        <div className='root'>
-          <Information country={country.country} info={country.info} />
-          <Places places={country.places} />
-          <Video video={country.country.videoUrl} />
-          <Location info={country.info} />
-        </div>
-      </Grid>
+    <>
+      {isLoading && <Spinner />}
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={9}>
+          <div className='root'>
+            <Information country={country.country} info={country.info} />
+            <Places places={country.places} />
+            <Video video={country.country.videoUrl} />
+            <Location info={country.info} />
+          </div>
+        </Grid>
 
-      <Grid item xs={12} md={3}>
-        <SideBar country={country} />
+        <Grid item xs={12} md={3}>
+          <SideBar country={country} />
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }

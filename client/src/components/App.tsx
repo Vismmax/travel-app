@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: '100vh',
       backgroundImage: 'url("/img/bg.jpg")',
       backgroundSize: 'cover',
+      backgroundPosition: 'center top',
     },
   }),
 );

@@ -5,9 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import CardCountry from './CardCountry';
 import { useTranslation } from 'react-i18next';
 import HomeHeader from './HomeHeader';
-import { countriesStore, getCountries } from './countriesSlice';
+import { countriesStore, getCountries, isLoadingStore } from './countriesSlice';
 import { langStore, searchStore } from '../common/commonSlice';
 import ButtonAdd from './ButtonAdd';
+import Spinner from '../common/Spinner';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,6 +43,7 @@ export default function HomePage() {
   const countries = useSelector(countriesStore);
   const lang = useSelector(langStore);
   const search = useSelector(searchStore);
+  const isLoading = useSelector(isLoadingStore);
 
   const fetchCountries = () => {
     dispatch(getCountries());
@@ -59,6 +61,8 @@ export default function HomePage() {
 
   return (
     <div className={classes.root}>
+      {isLoading && <Spinner />}
+
       <HomeHeader />
 
       <Grid container spacing={5}>

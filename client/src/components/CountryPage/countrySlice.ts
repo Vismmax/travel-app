@@ -61,5 +61,6 @@ export const getCountry = (alpha3Code: string): AppThunk => async (
 };
 
 export const countryStore = (state: RootState) => state.country;
+export const isLoadingStore = (state: RootState) => state.country.isLoading;
 
 export default countrySlice.reducer;

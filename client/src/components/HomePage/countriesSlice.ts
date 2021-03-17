@@ -38,5 +38,6 @@ export const getCountries = (): AppThunk => async (dispatch, getState) => {
 };
 
 export const countriesStore = (state: RootState) => state.countries.countries;
+export const isLoadingStore = (state: RootState) => state.countries.isLoading;
 
 export default countriesSlice.reducer;
