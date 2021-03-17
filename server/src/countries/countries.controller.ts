@@ -1,32 +1,41 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/common';
-import {CreateCountryDto, ListAllEntities} from "./country.dto";
-import {CountriesService} from "./countries.service";
-import {Country} from "./country.entity";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { CreateCountryDto, ListAllEntities } from './country.dto';
+import { CountriesService } from './countries.service';
+import { Country } from './country.entity';
 
 @Controller('countries')
 export class CountriesController {
-  constructor(private countriesService: CountriesService) {
-  }
+  constructor(private countriesService: CountriesService) {}
 
   @Get()
-  getAll(@Query() query: ListAllEntities): Promise<Country[]> {
-    return this.countriesService.getAll();
+  getAll(@Query('lang') lang: string): Promise<Country[]> {
+    return this.countriesService.getAll(lang);
   }
 
   @Get('check')
   check(@Query('country') country: string): Promise<any> {
-    // return `This action returns a #${id} cat`;
     return this.countriesService.check(country);
   }
 
-  @Get(':id')
-  getOne(@Param('id') id: string): string {
-    return `This action returns a #${id} cat`;
+  @Get(':alpha3Code')
+  getOne(
+    @Param('alpha3Code') alpha3Code: string,
+    @Query('lang') lang: string,
+  ): Promise<any> {
+    return this.countriesService.getOne({ alpha3Code, lang });
   }
 
   @Post()
   create(@Body() createCountryDto: CreateCountryDto): Promise<Country> {
-    console.log('createCountryDto: ', createCountryDto)
     return this.countriesService.add(createCountryDto);
   }
 
@@ -38,7 +47,10 @@ export class CountriesController {
   // }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateCountryDto: CreateCountryDto): string {
+  update(
+    @Param('id') id: string,
+    @Body() updateCountryDto: CreateCountryDto,
+  ): string {
     return 'This action adds a new cat';
   }
 
@@ -46,5 +58,4 @@ export class CountriesController {
   remove(): string {
     return 'This action adds a new cat';
   }
-
 }

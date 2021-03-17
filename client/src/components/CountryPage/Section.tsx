@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type Props = {
   children: JSX.Element | JSX.Element[];
-}
+};
 
-export default function Section({children}: Props) {
+export default function Section({ children }: Props) {
   const classes = useStyles();
 
   return (

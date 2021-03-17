@@ -1,9 +1,10 @@
-import {Injectable} from '@nestjs/common';
-import {InjectRepository} from "@nestjs/typeorm";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
-import {DeleteResult, Repository} from "typeorm";
-import {Country, CountryInfo} from "./country.entity";
-import {CreateCountryDto} from "./country.dto";
+import { DeleteResult, Repository } from 'typeorm';
+import { Country, CountryInfo } from './country.entity';
+import { CreateCountryDto } from './country.dto';
+import { Place } from '../places/place.entity';
 
 @Injectable()
 export class CountriesService {
@@ -12,16 +13,38 @@ export class CountriesService {
     private countriesRepository: Repository<Country>,
     @InjectRepository(CountryInfo)
     private countryInfoRepository: Repository<CountryInfo>,
-  ) {
+    @InjectRepository(Place)
+    private placesRepository: Repository<Place>,
+  ) {}
+
+  getAll(lang: string): Promise<Country[]> {
+    return this.countriesRepository.find({ lang });
   }
 
-  getAll(): Promise<Country[]> {
-    console.log('process.env: ', process.env.TEST);
-    return this.countriesRepository.find();
-  }
-
-  getOne(id: string): Promise<Country> {
-    return this.countriesRepository.findOne(id);
+  async getOne({
+    alpha3Code,
+    lang,
+  }: {
+    alpha3Code: string;
+    lang: string;
+  }): Promise<any> {
+    // const country = await this.countriesRepository.findOne({
+    //   alpha3Code,
+    //   lang,
+    // });
+    // console.log(country);
+    // [Country, CountryInfo]
+    const [country, info, [...places]] = await Promise.all([
+      this.countriesRepository.findOne({
+        alpha3Code,
+        lang,
+      }),
+      this.countryInfoRepository.findOne({
+        alpha3Code,
+      }),
+      this.placesRepository.find({ alpha3Code, lang }),
+    ]);
+    return { country, info, places };
   }
 
   async add(country: CreateCountryDto): Promise<Country> {
@@ -39,7 +62,7 @@ export class CountriesService {
         info: {},
         isExistDB: false,
         isExist: false,
-      }
+      };
     }
 
     const countryInfoDB = await this.countriesRepository.findOne({
@@ -50,33 +73,33 @@ export class CountriesService {
         info: countryInfoDB,
         isExistDB: true,
         isExist: true,
-      }
+      };
     }
     return {
       info: res.info,
       isExistDB: false,
       isExist: true,
-    }
+    };
   }
 
   async getCountryInfo(country: string) {
     const urlApiCountry = process.env.URL_API_COUNTRY + `/${country}`;
     // const fields = 'name;capital;currencies;alpha2Code;alpha3Code;latlng;timezones;languages;flag';
-    const fields = 'name;capital;currencies;alpha2Code;alpha3Code;timezones;flag';
+    const fields =
+      'name;capital;currencies;alpha2Code;alpha3Code;timezones;flag';
     try {
-      const countryResponse = await axios.get(
-        urlApiCountry,
-        {params: {fields}}
-      );
+      const countryResponse = await axios.get(urlApiCountry, {
+        params: { fields },
+      });
       const countryData = countryResponse.data[0];
 
-      const capitalResponse = await axios.get(
-        process.env.URL_API_CAPITAL, {
-          params: {
-            name: countryData.capital,
-            apikey: process.env.KEY_API_CAPITAL,
-          }
-        })
+      const capitalResponse = await axios.get(process.env.URL_API_CAPITAL, {
+        params: {
+          name: countryData.capital,
+          apikey: process.env.KEY_API_CAPITAL,
+        },
+      });
+
       const capitalData = capitalResponse.data;
 
       const countryInfo = {
@@ -94,17 +117,21 @@ export class CountriesService {
       };
 
       const infoDB = await this.countryInfoRepository.findOne({
-        alpha3Code: countryInfo.alpha3Code
+        alpha3Code: countryInfo.alpha3Code,
       });
       if (infoDB) {
-        return {info: infoDB, error: false};
+        return { info: infoDB, error: false };
       }
 
       const info = await this.countryInfoRepository.save(countryInfo);
 
-      return {info, error: false};
-    } catch ({response: {data: {status, data}}}) {
-      return {countryInfo: {}, error: true};
+      return { info, error: false };
+    } catch ({
+      response: {
+        data: { status, data },
+      },
+    }) {
+      return { countryInfo: {}, error: true };
     }
   }
 }

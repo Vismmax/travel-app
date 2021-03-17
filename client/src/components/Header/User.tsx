@@ -1,18 +1,17 @@
 import React from 'react';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
+import { useTranslation } from 'react-i18next';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-  }),
-);
+const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
 export default function User() {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -30,16 +29,15 @@ export default function User() {
       {auth ? (
         <div>
           <IconButton
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
+            aria-controls='menu-appbar'
+            aria-haspopup='true'
             onClick={handleMenu}
-            color="inherit"
+            color='inherit'
           >
-            <AccountCircle/>
+            <AccountCircle />
           </IconButton>
           <Menu
-            id="menu-appbar"
+            id='menu-appbar'
             anchorEl={anchorEl}
             anchorOrigin={{
               vertical: 'top',
@@ -58,7 +56,7 @@ export default function User() {
           </Menu>
         </div>
       ) : (
-        <Button color="inherit">Login</Button>
+        <Button color='inherit'>{t('login')}</Button>
       )}
     </>
   );

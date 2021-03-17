@@ -1,9 +1,15 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-// import counterReducer from '../features/counter/counterSlice';
+import editorReducer from '../components/EditorPage/editorSlice';
+import commonReducer from '../components/common/commonSlice';
+import countriesReducer from '../components/HomePage/countriesSlice';
+import countryReducer from '../components/CountryPage/countrySlice';
 
 export const store = configureStore({
   reducer: {
-    // counter: counterReducer,
+    editor: editorReducer,
+    common: commonReducer,
+    countries: countriesReducer,
+    country: countryReducer,
   },
 });
 

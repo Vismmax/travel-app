@@ -1,10 +1,10 @@
 import React from 'react';
-import {Route, Switch, Redirect} from "react-router-dom"
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import HomePage from "../HomePage";
-import CountryPage from "../CountryPage";
-import EditorPage from "../EditorPage";
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import HomePage from '../HomePage';
+import CountryPage from '../CountryPage';
+import EditorPage from '../EditorPage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,12 +25,12 @@ export default function Main() {
     <main className={classes.root}>
       <Container className={classes.wrap}>
         <Switch>
-          <Route exact path="/home" component={HomePage}/>
-          <Route path="/country" component={CountryPage}/>
+          <Route exact path='/home' component={HomePage} />
+          <Route path='/country/:alpha3Code' component={CountryPage} />
           {/*<Route path="/login" component={LoginPage} />*/}
-          <Route path="/editor" component={EditorPage}/>
+          <Route path='/editor' component={EditorPage} />
           {/*<Route component={NotFound} />*/}
-          <Redirect from='/' to='/home'/>
+          <Redirect from='/' to='/home' />
         </Switch>
       </Container>
     </main>

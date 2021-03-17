@@ -2,39 +2,44 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
+import { ICountry } from '../../common/interfaces/countryInterfaces';
 
 const useStyles = makeStyles({
-  root: {
-    // maxWidth: 345,
-  },
+  root: {},
   media: {
     height: 240,
   },
 });
 
-export default function CardCountry() {
+interface IProps {
+  country: ICountry;
+}
+
+export default function CardCountry({ country }: IProps) {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea href={`/country/${country.alpha3Code}`}>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          image={country.imgUrl}
+          title={country.name}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+          <Typography gutterBottom variant='h4' component='h2'>
+            {country.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+          <Typography gutterBottom>
+            <span>{t('capital')}: </span>
+            <Typography variant='h6' component='span' gutterBottom>
+              {country.capital}
+            </Typography>
           </Typography>
         </CardContent>
       </CardActionArea>

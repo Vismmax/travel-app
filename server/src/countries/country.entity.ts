@@ -1,5 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
-import {Place} from "../places/place.entity";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Place } from '../places/place.entity';
 
 @Entity()
 export class Country {
@@ -19,9 +19,15 @@ export class Country {
   description: string;
 
   @Column()
+  imgUrl: string;
+
+  @Column()
+  videoUrl: string;
+
+  @Column()
   lang: string;
 
-  @OneToMany(() => Place, place => place.country)
+  @OneToMany(() => Place, (place) => place.country)
   places: Place[];
 }
 

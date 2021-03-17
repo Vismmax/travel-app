@@ -1,16 +1,17 @@
 import React from 'react';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import YouTubeIcon from '@material-ui/icons/YouTube';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      backgroundColor: '#f5f5f5'
+      backgroundColor: '#f5f5f5',
     },
     main: {
       display: 'flex',
@@ -29,39 +30,38 @@ const useStyles = makeStyles((theme: Theme) =>
     created: {
       marginLeft: theme.spacing(3),
       marginRight: theme.spacing(3),
-    }
+    },
   }),
 );
 
 export default function Footer() {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <footer className={classes.root}>
-      <Divider/>
+      <Divider />
 
       <Container className={classes.main}>
-
         <Button
-          href="https://github.com/Vismmax"
+          href='https://github.com/Vismmax'
           startIcon={<GitHubIcon />}
-          size="large"
+          size='large'
         >
           <span className={classes.title}>Vismmax</span>
         </Button>
 
         <Typography className={classes.created}>
-          Created in <time>2021</time>
+          {t('created')} <time>2021</time>
         </Typography>
 
         <Button
-          href="https://github.com/Vismmax"
+          href='https://github.com/Vismmax'
           startIcon={<YouTubeIcon />}
-          size="large"
+          size='large'
         >
-          <span className={classes.title}>Demo</span>
+          <span className={classes.title}>{t('demo')}</span>
         </Button>
-
       </Container>
     </footer>
   );

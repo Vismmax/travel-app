@@ -1,24 +1,21 @@
 import React from 'react';
-import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import {red} from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Section from "./Section";
+import { red } from '@material-ui/core/colors';
+import Section from './Section';
+import {
+  ICountry,
+  ICountryInfo,
+} from '../../common/interfaces/countryInterfaces';
 
 function getUrlFlag(code: string, width: number = 80): string {
-  return `https://flagcdn.com/w${width}/${code}.png`
+  return `https://flagcdn.com/w${width}/${code.toLocaleLowerCase()}.png`;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,12 +42,18 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
-    }
+    },
   }),
 );
 
-export default function Information() {
+interface IProps {
+  country: ICountry;
+  info: ICountryInfo;
+}
+
+export default function Information({ country, info }: IProps) {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <Section>
@@ -58,48 +61,41 @@ export default function Information() {
         <CardHeader
           avatar={
             <Avatar
-              variant="rounded"
-              aria-label="recipe"
-              alt="Португалия"
-              src={getUrlFlag('pt')}
+              variant='rounded'
+              aria-label='recipe'
+              alt={country.name}
+              src={getUrlFlag(info.alpha2Code)}
               className={classes.flag}
             />
           }
           title={
-            <Typography variant="h3" component="h1" className={classes.h1}>
-              Португалия
+            <Typography variant='h3' component='h1' className={classes.h1}>
+              {country.name}
             </Typography>
           }
           subheader={
             <Typography gutterBottom>
-              <span>Столица: </span>
-              <Typography variant="h5" component="span" gutterBottom className={classes.subheaderH1}>
-                Лиссабон
+              <span>{t('capital')}: </span>
+              <Typography
+                variant='h5'
+                component='span'
+                gutterBottom
+                className={classes.subheaderH1}
+              >
+                {country.capital}
               </Typography>
             </Typography>
           }
         />
         <CardMedia
           className={classes.media}
-          image="/img/port.jpg"
-          title="Португалия"
+          image={country.imgUrl}
+          title={country.name}
         />
         <CardContent>
-          <Typography component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
-          </Typography>
-          <Typography color="textPrimary" component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
-          </Typography>
-          <Typography component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
-          </Typography>
+          <Typography component='p'>{country.description}</Typography>
         </CardContent>
       </Card>
     </Section>
-
   );
 }
