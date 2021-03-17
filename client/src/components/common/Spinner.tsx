@@ -12,12 +12,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function Spinner({open=true}) {
+export default function Spinner({ open = true }) {
   const classes = useStyles();
 
   return (
-      <Backdrop className={classes.backdrop} open={open}>
-        <CircularProgress size={80} color="inherit" />
-      </Backdrop>
+    <Backdrop className={classes.backdrop} open={open}>
+      <CircularProgress size={80} color='inherit' />
+    </Backdrop>
   );
 }
