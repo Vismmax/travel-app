@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import InputBase from '@material-ui/core/InputBase';
 import {
   createStyles,
@@ -7,7 +10,8 @@ import {
   makeStyles,
 } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import { useTranslation } from 'react-i18next';
+import ClearIcon from '@material-ui/icons/Clear';
+import { setSearch, searchStore } from '../common/commonSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,10 +36,22 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(0, 2),
       height: '100%',
       position: 'absolute',
-      pointerEvents: 'none',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      cursor: 'pointer',
+      zIndex: 1,
+    },
+    clearIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      right: -theme.spacing(1),
+      top: 0,
     },
     inputRoot: {
       color: 'inherit',
@@ -62,23 +78,56 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+interface IEv {
+  target: {
+    value: string;
+  };
+}
+
 export default function Search() {
   const classes = useStyles();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const search = useSelector(searchStore);
+  const location = useLocation();
+
+  const handleChange = (ev: IEv) => {
+    dispatch(setSearch(ev.target.value));
+  };
+
+  const handleClickSearch = () => {
+    dispatch(setSearch(search));
+    console.log('Click Search');
+  };
+
+  const handleClearSearch = () => {
+    dispatch(setSearch(''));
+  };
 
   return (
     <div className={classes.search}>
-      <div className={classes.searchIcon}>
-        <SearchIcon />
-      </div>
-      <InputBase
-        placeholder={t('search')}
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ 'aria-label': 'search' }}
-      />
+      {location.pathname === '/home' && (
+        <>
+          <div className={classes.searchIcon}>
+            <SearchIcon onClick={handleClickSearch} />
+          </div>
+          <InputBase
+            placeholder={t('search')}
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+            value={search}
+            onChange={handleChange}
+          />
+          {search && (
+            <div className={classes.clearIcon}>
+              <ClearIcon onClick={handleClearSearch} />
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

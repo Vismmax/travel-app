@@ -6,7 +6,7 @@ import CardCountry from './CardCountry';
 import { useTranslation } from 'react-i18next';
 import HomeHeader from './HomeHeader';
 import { countriesStore, getCountries } from './countriesSlice';
-import { langStore } from '../common/commonSlice';
+import { langStore, searchStore } from '../common/commonSlice';
 import ButtonAdd from './ButtonAdd';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,6 +41,7 @@ export default function HomePage() {
   const dispatch = useDispatch();
   const countries = useSelector(countriesStore);
   const lang = useSelector(langStore);
+  const search = useSelector(searchStore);
 
   const fetchCountries = () => {
     dispatch(getCountries());
@@ -50,12 +51,18 @@ export default function HomePage() {
     fetchCountries();
   }, [lang]);
 
+  const countriesFilter = countries.filter(
+    (country) =>
+      country.name.toLowerCase().includes(search.toLowerCase()) ||
+      country.capital.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+  );
+
   return (
     <div className={classes.root}>
       <HomeHeader />
 
       <Grid container spacing={5}>
-        {countries.map((country) => (
+        {countriesFilter.map((country) => (
           <Grid item xs={12} md={6} xl={4}>
             <CardCountry country={country} />
           </Grid>
