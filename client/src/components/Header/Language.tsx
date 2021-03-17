@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -49,6 +49,10 @@ export default function Language() {
   const dispatch = useDispatch();
   const lang = useSelector(langStore);
 
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [lang]);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -62,7 +66,7 @@ export default function Language() {
 
   const handleChangeSelect = (ev: IEv) => {
     dispatch(setLang(ev.target.value as Languages));
-    i18n.changeLanguage(ev.target.value);
+    // i18n.changeLanguage(ev.target.value);
   };
 
   const handleMenuItemClick = (

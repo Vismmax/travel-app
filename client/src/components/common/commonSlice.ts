@@ -8,7 +8,7 @@ interface CommonState {
 }
 
 const initialState: CommonState = {
-  lang: Languages.en,
+  lang: (localStorage.getItem('lang') as Languages) || Languages.en,
   search: '',
 };
 
@@ -18,6 +18,7 @@ export const commonSlice = createSlice({
   reducers: {
     setLang: (state, action: PayloadAction<Languages>) => {
       state.lang = action.payload;
+      localStorage.setItem('lang', action.payload);
     },
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload;
