@@ -1,0 +1,34 @@
+{
+  "title": "Let's go travel",
+  "quote": {
+    "text": "\"The world is a book and those who do not travel read only one page.\"",
+    "author": "—St. Augustine"
+  },
+  "lang": {
+    "en": "English",
+    "ru": "Русский",
+    "de": "Deutsche"
+  },
+  "login": "Login",
+  "search": "Search...",
+  "created": "Created in",
+  "demo": "Demo",
+  "capital": "Capital",
+  "country": "Country",
+  "description": "Description",
+  "place": "Place",
+  "places": "Interesting places",
+  "video": "Video",
+  "map": "Map",
+  "exchange": "Exchange rates",
+  "editor": {
+    "notExist": "The country does not exist",
+    "existinDB": "The country is in the database",
+    "nameInEN": "Country name in English",
+    "check": "Check"
+  },
+  "units": {
+    "temperature": "C",
+    "speed": "Km/h"
+  }
+}
